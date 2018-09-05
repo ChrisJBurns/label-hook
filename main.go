@@ -8,10 +8,10 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/ChrisJBurns/label-hook/config"
+	"github.com/ChrisJBurns/label-hook/model"
 	"github.com/google/go-github/github"
 	"github.com/gorilla/mux"
-	"github.com/label-hook/config"
-	"github.com/label-hook/model"
 	"golang.org/x/oauth2"
 )
 
