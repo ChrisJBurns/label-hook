@@ -1,4 +1,4 @@
-# label-hook [![Build Status](https://travis-ci.com/ChrisJBurns/label-hook.svg?branch=master.png)](https://travis-ci.com/ChrisJBurns/label-hook.svg?branch=master)
+# label-hook [![Build Status](https://travis-ci.com/ChrisJBurns/label-hook.svg?branch=master)](https://travis-ci.com/ChrisJBurns/label-hook)
 A simple application that can be used as a GitHub web-hook for ensuring labels are present on pull requests. Written in Go, this application will serve and listen on the user specified host and port where it will perform its function.
 
 ## Getting started
