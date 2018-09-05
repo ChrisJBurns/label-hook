@@ -3,7 +3,7 @@ package main
 import (
 	"testing"
 
-	"github.com/label-hook/config"
+	"github.com/ChrisJBurns/label-hook/config"
 )
 
 func TestLoadConfig(t *testing.T) {
