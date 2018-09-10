@@ -5,6 +5,7 @@ DIST=distributions
 all:
 	@echo "Building label-hook..."; 
 	go get && go build .
+	go test
 
 .PHONY: release
 release: distribution \
