@@ -1,6 +1,6 @@
 {
-    "organisation": "example",
-    "host": "example",
-    "port": "example",
+    "organisation": "ChrisJBurns",
+    "host": "localhost",
+    "port": "8000",
     "access_token": "example"
 }
