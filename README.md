@@ -12,7 +12,7 @@ As a contributor you will need to fulfil the following requirements:
 #### Running label-hook
 As a user, the following steps can be followed to ensure the webhook can be used:
 - Download the executable file from the release page
-- Download the `config.json` template file from the [config](config/) folder and save it in a folder of your choice (it is recommended to keep it in the same folder as the `label-hook` executable to keep it all together) and correctly configure it. Help on what each property in the configuration file means can be found in the config folder [README.md](config/README.md).
+- Download the `config.json` template [file](config/config.json) save it in a folder of your choice (it is recommended to keep it in the same folder as the `label-hook` executable to keep it all together) and correctly configure it. Help on what each property in the configuration file means can be found in the config folder [README.md](config/README.md).
 - Run the executable providing the path to the config file as an argument. Example `./label-hook config.json`
 
 ##### Adding webhook in GitHub
