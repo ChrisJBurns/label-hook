@@ -13,7 +13,7 @@ As a contributor you will need to fulfil the following requirements:
 As a user, the following steps can be followed to ensure the webhook can be used:
 - Download the executable file from the release page
 - Download the `config.json` template file from the [config](config/) folder and save it in a folder of your choice (it is recommended to keep it in the same folder as the `label-hook` executable to keep it all together) and correctly configure it. Help on what each property in the configuration file means can be found in the config folder [README.md](config/README.md).
-- Run the executable via `./label-hook [PATH_TO_CONFIG_JSON_FILE]` example `./label-hook config.json`
+- Run the executable providing the path to the config file as an argument. Example `./label-hook config.json`
 
 ##### Adding webhook in GitHub
 When the label-hook application is running on the desired host and port you have configured, add a GitHub webhook (tutorials around this can be found online by GitHub and others - it is very simple) that uses the URL of the running label-hook and make sure that you specify that ONLY the pull request events get sent to the label-hook and nothing else. This is because it only needs to accept requests coming in that are related to pull requests.
