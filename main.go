@@ -3,9 +3,11 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/ChrisJBurns/label-hook/config"
@@ -20,9 +22,20 @@ var ctx context.Context
 var cfg config.Config
 
 func main() {
-	cfg = config.LoadConfiguration()
-	if cfg == (config.Config{}) {
-		log.Println("Configuration loading failed: returned empty")
+	configPath, err := GetConfigurationPath()
+	if err != nil {
+		log.Print(err)
+		return
+	}
+
+	cfg, err = config.LoadConfiguration(configPath)
+	if err != nil {
+		log.Print(err)
+		return
+	}
+
+	if err := ValidateConfig(cfg); err != nil {
+		log.Print(err)
 		return
 	}
 
@@ -31,16 +44,46 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", ProcessPREvent).Methods("POST")
 
-	if cfg.Port == "" {
-		log.Println("Configured port is empty")
-		return
-	}
-	if cfg.Host == "" {
-		log.Println("Configured host is empty")
-		return
-	}
-	log.Printf("label-hook started and listening on port %s", cfg.Port)
+	log.Printf("Started label-hook on %s:%s", cfg.Host, cfg.Port)
 	log.Fatal(http.ListenAndServe(cfg.Host+":"+cfg.Port, router))
+}
+
+// ValidateConfig checks all properties loaded from the config and validates them to
+// check if they are empty. If so, it will error on the property that is empty as they're
+// all mandatory.
+func ValidateConfig(cfg config.Config) error {
+	if cfg == (config.Config{}) {
+		return errors.New("Config is empty")
+	}
+
+	if cfg.Organisation == "" {
+		return errors.New("No organisation has been configured")
+	}
+
+	if cfg.Host == "" {
+		return errors.New("No host has been configured")
+	}
+
+	if cfg.Port == "" {
+		return errors.New("No port has been configured")
+	}
+
+	if cfg.AccessToken == "" {
+		return errors.New("No access token has been configured")
+	}
+
+	return nil
+}
+
+// GetConfigurationPath gets the config file path that is passed in as an argument to the application.
+// If there is anything other than the config file path provided as an argument, throw an error. This
+// applies to if there are no parameters provided and/or if there are more than one.
+func GetConfigurationPath() (string, error) {
+	if len(os.Args) != 2 {
+		return "", errors.New("Please specify the config location as an argument and only that")
+	}
+
+	return os.Args[1], nil
 }
 
 // ProcessPREvent does processing around PR

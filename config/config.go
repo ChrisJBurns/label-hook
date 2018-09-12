@@ -2,7 +2,7 @@ package config
 
 import (
 	"encoding/json"
-	"log"
+	"errors"
 	"os"
 )
 
@@ -14,18 +14,21 @@ type Config struct {
 	AccessToken  string `json:"access_token"`
 }
 
-// LoadConfiguration loads all configuration that exists in
-// config.json and assigns it to a Config struct object
-func LoadConfiguration() Config {
-	configFile, err := os.Open("config/config.json")
+// LoadConfiguration loads the config file that is specified as a parameter and decodes
+// it into a Config struct object
+func LoadConfiguration(configPath string) (Config, error) {
+	configFile, err := os.Open(configPath)
 	defer configFile.Close()
 	if err != nil {
-		log.Println("error when opening config.json")
-		panic(err)
+		return Config{}, errors.New("Configuration loading failed: Error when opening config file: " + configPath + "\r\n" +
+			"Please check you have specified the correct path to the json file. Example: folder/config/config.json")
 	}
+
 	jsonParser := json.NewDecoder(configFile)
 
 	var config Config
-	jsonParser.Decode(&config)
-	return config
+	if jsonParser.Decode(&config) != nil {
+		return Config{}, errors.New("Configuration loading failed: Error decoding config.json file, please check it is valid json")
+	}
+	return config, nil
 }
